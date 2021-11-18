@@ -2,6 +2,10 @@ import torch
 
 
 class CTCLoss(torch.nn.Module):
+    """
+    As implemented by Loren Lugosch, 
+    here: https://github.com/lorenlugosch/graves-transducers/blob/master/ctc.ipynb
+    """
 
     def __init__(self):
         super().__init__()
@@ -54,8 +58,7 @@ class CTCLoss(torch.nn.Module):
                         # Skip previous token
                         else:
                             log_alpha_t[s] = torch.logsumexp(log_alpha_t_1[s-2:s+1], dim=0) + x[t, z[s]]
-            #print("")
-            #print(log_alpha_t)
+
             log_alphas.append(log_alpha_t)
             
         return torch.stack(log_alphas)
